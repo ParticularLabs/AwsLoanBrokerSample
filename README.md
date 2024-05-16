@@ -81,8 +81,13 @@ docker-compose down
 NServiceBus supports OpenTelemetry.
 All endpoints are configured to send telemetry data to Jaeger.
 
-To visualize traces, open the [Jaeger dashboard](http://localhost:16686).
+To visualize traces, open the [Jaeger dashboard](http://localhost:16686). To visualize metrics, open [Grafana](http://localhost:3000/dashboards) (default username is `admin` and default password is `admin`).
 
+#### Configuring Grafana
+
+The solution is sending metrics to the AWS OpenTelemetry Collector, that acts like a proxy for all endpoints. Endpoints send metrics to the collector and Prometheus pull metrics from one source, the collector. 
+
+Data source URL: http://prometheus:9090
 
 ### Sample scenarios
 
@@ -90,9 +95,9 @@ TODO
 
 - Press F on the client and observe messages flowing bla bla
 - Stop all bank adapters, press F on the client and observe the behavior
-- Stop the LoanBroker, press F on the client and stop the client, start the LoanBroker observe messages flowing, start the client and observe the Loanbroker response eventually coming in.
+- Stop the LoanBroker, press F on the client and stop the client, start the LoanBroker observe messages flowing, start the client and observe the LoanBroker response eventually coming in.
 
-## How to modify the same to run agains an AWS Account
+## How to modify the same to run against an AWS Account
 
 TODO
 =======
