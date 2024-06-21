@@ -11,6 +11,27 @@ public class QuoteRequestedHandler(ILogger<QuoteRequestedHandler> logger) : IHan
     public async Task Handle(QuoteRequested message, IMessageHandlerContext context)
     {
         logger.LogInformation($"Quote request with ID {message.RequestId}. Details: number of years {message.NumberOfYears}, amount: {message.Amount}, credit score: {message.Score}");
+
+        while (DateTime.Now.Ticks % 300 == 0)
+        {
+            if (context.CancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+            throw new Exception("Random error");
+        }
+
+        while (DateTime.Now.Ticks % 5 == 0)
+        {
+            if (context.CancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            var randomDelayMilliseconds = Random.Next(500, 3000);
+            Thread.Sleep(randomDelayMilliseconds);
+        }
+
         if (Random.Next(0, 5) == 0 || message.Score < 90)
         {
             var quoteRejected = new QuoteRequestRefusedByBank(message.RequestId, BankIdentifier);

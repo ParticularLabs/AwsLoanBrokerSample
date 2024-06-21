@@ -1,4 +1,5 @@
-﻿using Amazon.Runtime;
+﻿using System.Diagnostics.Metrics;
+using Amazon.Runtime;
 using Amazon.SimpleNotificationService;
 using Amazon.SQS;
 using NLog.Extensions.Logging;
@@ -23,6 +24,7 @@ public static class SharedConventions
     public const string OtlpMetricsUrlEnvVar = "OTLP_METRICS_URL";
     public const string OtlpTracesUrlEnvVar = "OTLP_TRACING_URL";
     public static readonly AWSCredentials EmptyLocalStackCredentials = new BasicAWSCredentials("xxx", "xxx");
+    public static readonly Meter LoanBrokerMeter = new ("LoanBroker", "0.1.0");
 
     public static string LocalStackUrl() => Environment.GetEnvironmentVariable(LocalStackEdgeEnvVar) ?? LocalStackEdgeDefaultUrl;
 
@@ -64,6 +66,7 @@ public static class SharedConventions
         Sdk.CreateMeterProviderBuilder()
             .SetResourceBuilder(resourceBuilder)
             .AddMeter("NServiceBus.Core")
+            .AddMeter("LoanBroker")
             .AddOtlpExporter(cfg =>
             {
                 var url = Environment.GetEnvironmentVariable(OtlpMetricsUrlEnvVar) ?? OtlpMetricsDefaultUrl;

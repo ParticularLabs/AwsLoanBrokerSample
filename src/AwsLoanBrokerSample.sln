@@ -33,6 +33,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adot", "adot", "{F8D716D1-4
 		adot\config.yaml = adot\config.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grafana", "grafana", "{C41FB7F9-08F3-4C99-8C17-3078582AD182}"
+	ProjectSection(SolutionItems) = preProject
+		grafana\dashboards\common_dashboard.json = grafana\dashboards\common_dashboard.json
+		grafana\provisioning\dashboards\dashboard_provider.yml = grafana\provisioning\dashboards\dashboard_provider.yml
+		grafana\provisioning\datasources\prometheus_ds.yml = grafana\provisioning\datasources\prometheus_ds.yml
+		grafana\dashboards\loan_broker_dashboard.json = grafana\dashboards\loan_broker_dashboard.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,5 +89,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F8D716D1-48D4-4DC4-996D-8A910AC76B14} = {266D5BA7-E337-47FA-A7E0-2071E806131B}
+		{C41FB7F9-08F3-4C99-8C17-3078582AD182} = {266D5BA7-E337-47FA-A7E0-2071E806131B}
 	EndGlobalSection
 EndGlobal

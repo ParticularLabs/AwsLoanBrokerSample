@@ -1,6 +1,6 @@
 services:
   localstack:
-    image: localstack/localstack
+    image: localstack/localstack:3
     environment:
       - SERVICES=sns,sqs,iam,s3,dynamodb
       - DEBUG=1
@@ -66,7 +66,8 @@ services:
       - '3000:3000'
     restart: unless-stopped
     volumes:
-      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning:/etc/grafana/provisioning/
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
       - ./data-grafana:/var/lib/grafana
   jaeger:
     image: jaegertracing/all-in-one:latest

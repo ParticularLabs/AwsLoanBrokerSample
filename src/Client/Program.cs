@@ -23,10 +23,14 @@ var app = builder.Build();
 await app.StartAsync();
 
 const ConsoleKey sendMessageConsoleKey = ConsoleKey.F;
+const ConsoleKey continuousSendMessageConsoleKey = ConsoleKey.L;
 Console.WriteLine($"Press {sendMessageConsoleKey} to send a new FindBestLoan request");
+Console.WriteLine($"Press {continuousSendMessageConsoleKey} to send a new FindBestLoan request every second");
 Console.WriteLine("Press Q to quit");
 
+var messageSession = app.Services.GetRequiredService<IMessageSession>();
 var running = true;
+var continuousSend = false;
 Console.CancelKeyPress += (_, e) =>
 {
     e.Cancel = true;
@@ -41,19 +45,39 @@ while (running)
         switch (k.Key)
         {
             case sendMessageConsoleKey:
-                var messageSession = app.Services.GetRequiredService<IMessageSession>();
-                var requestId = Guid.NewGuid().ToString()[..8];
-                var prospect = new Prospect("Scrooge", "McDuck");
-                Console.WriteLine(
-                    $"Sending FindBestLoan for prospect {prospect.Name} {prospect.Surname}. Request ID: {requestId}");
-                await messageSession.Send(new FindBestLoan(requestId, prospect, 10, 1000));
+                await SendMessage(messageSession);
+                break;
+            case continuousSendMessageConsoleKey:
+                continuousSend = true;
                 break;
             case ConsoleKey.Q:
                 running = false;
                 break;
         }
     }
+
+    if (continuousSend)
+    {
+        await Task.Delay(1000);
+        await SendMessage(messageSession);
+    }
 }
 
 await app.StopAsync();
 app.Dispose();
+return;
+
+static Task SendMessage(IMessageSession messageSession)
+{
+    var requestId = Guid.NewGuid().ToString()[..8];
+    var prospect = new Prospect("Scrooge", "McDuck");
+    Console.WriteLine(
+        $"Sending FindBestLoan for prospect {prospect.Name} {prospect.Surname}. Request ID: {requestId}");
+
+    var sendOptions = new SendOptions();
+    sendOptions.SetHeader(LoanBrokerHeaders.RequestId, requestId);
+
+    var findBestLoan = new FindBestLoan(requestId, prospect, 10, 1000);
+
+    return messageSession.Send(findBestLoan, sendOptions);
+}
