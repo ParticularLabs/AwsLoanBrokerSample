@@ -36,6 +36,9 @@ installer/[F|f]iles
 installer/[C|c]ustom[A|a]ctions
 installer/ServiceControl-cache
 
+# AWS CDK artifacts
+cdk.out/
+
 # Created by https://www.gitignore.io
 
 ### VisualStudio ###

@@ -32,7 +32,10 @@ public static class SharedConventions
         // in production each container should map a volume to write diagnostic
         endpointConfiguration.CustomDiagnosticsWriter((_, _) => Task.CompletedTask);
         endpointConfiguration.UseSerialization<SystemJsonSerializer>();
-        endpointConfiguration.EnableInstallers();
+
+        //TODO: remove installers, taking into account that we also need to support deploying to LocalStack
+     //   endpointConfiguration.EnableInstallers();
+
         EnableMetrics(endpointConfiguration);
         EnableTracing(endpointConfiguration);
 
