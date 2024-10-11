@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
@@ -60,6 +60,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prometheus", "prometheus", 
 		prometheus\prometheus.yml = prometheus\prometheus.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deploy", "Deploy\Deploy.csproj", "{08E5A4E9-0A85-455D-AE1D-C0661AFB756B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,6 +108,10 @@ Global
 		{FD9296A8-0CE1-450B-AB1A-B103A6CB7EA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD9296A8-0CE1-450B-AB1A-B103A6CB7EA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD9296A8-0CE1-450B-AB1A-B103A6CB7EA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08E5A4E9-0A85-455D-AE1D-C0661AFB756B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08E5A4E9-0A85-455D-AE1D-C0661AFB756B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08E5A4E9-0A85-455D-AE1D-C0661AFB756B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08E5A4E9-0A85-455D-AE1D-C0661AFB756B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
