@@ -3,14 +3,14 @@ using NLog.Extensions.Logging;
 using NServiceBus.Extensions.Logging;
 using NServiceBus.Logging;
 
-
 namespace CommonConfigurations;
 
 public record Customizations(EndpointConfiguration EndpointConfiguration, RoutingSettings Routing);
 
 public static class SharedConventions
 {
-    public static HostApplicationBuilder ConfigureAwsNServiceBusEndpoint(this HostApplicationBuilder builder, string endpointName, Action<Customizations>? customize = null)
+    public static HostApplicationBuilder ConfigureAwsNServiceBusEndpoint(this HostApplicationBuilder builder,
+        string endpointName, Action<Customizations>? customize = null)
     {
         ConfigureMicrosoftLoggingIntegration();
 
@@ -24,6 +24,12 @@ public static class SharedConventions
         var persistence = endpointConfiguration.UsePersistence<DynamoPersistence>();
         persistence.Sagas().UsePessimisticLocking = true;
 
+        //The Deploy project will create it through the AWS CDK
+        persistence.DisableTablesCreation();
+        persistence.UseSharedTable(new TableConfiguration
+        {
+            TableName = "LoanBroker.NServiceBus.Storage"
+        });
         SetCommonEndpointSettings(endpointConfiguration);
 
         // Endpoint-specific customization
@@ -41,7 +47,8 @@ public static class SharedConventions
         endpointConfiguration.CustomDiagnosticsWriter((_, _) => Task.CompletedTask);
         endpointConfiguration.UseSerialization<SystemJsonSerializer>();
         endpointConfiguration.EnableOutbox();
-        endpointConfiguration.EnableInstallers();
+        //endpointConfiguration.EnableInstallers();
+
         endpointConfiguration.EnableOpenTelemetryMetrics();
         endpointConfiguration.EnableOpenTelemetryTracing();
 
@@ -90,6 +97,4 @@ public static class SharedConventions
         var nlog = new NLogLoggerFactory();
         LogManager.UseFactory(new ExtensionsLoggerFactory(nlog));
     }
-
-
 }
